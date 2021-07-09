@@ -1,0 +1,23 @@
+name: asd_fmri_classification
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+    - mlflow>=1.18.0
+    - boto3>=1.17.105
+    - click>=8.0.1
+    - joblib>=1.0.1
+    - numpy>=1.21
+    - pandas>=1.3.0
+    - scikit-learn>=0.24.2
+    - nilearn>=0.8.0
+    - matplotlib>=3.4.2
+    - ipykernel>=6.0.1
+    - seaborn>=0.11.1
+#variables:
+  # Note: Please do not disclose your credentials.
+  # For example, use env vars of your CI/CD pipeline.
+  # Here we store them in an .env file which
+  # is excluded from git via gitignore

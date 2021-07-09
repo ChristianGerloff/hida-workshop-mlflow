@@ -1,0 +1,49 @@
+name: asd_fmri_classification
+
+# your docker container
+#docker_env:
+#    image: asd
+
+# your environment file
+conda_env: conda.yaml
+
+# or your system envrionment :/
+
+entry_points:
+  load_data:
+    parameters:
+      bucket: string
+      dataset: string
+    command: "python load_data.py --bucket {bucket} --dataset {dataset}"
+  etl:
+    parameters:
+      data_source: path
+    command: "python etl.py --data_source {data_source}"
+  sklearn_cls:
+    parameters:
+      x_source: path
+      y_source: path
+      alpha: float
+      n_components: int
+    command: "python sklearn_cls.py --x_source {x_source}
+                                    --y_source {y_source}
+                                    --alpha {alpha}
+                                    --n_components {n_components}"
+  sklearn_test:
+    parameters:
+      x_source: path
+      y_source: path
+      model_source: path
+    command: "python sklearn_test.py --x_source {x_source}
+                                     --y_source {y_source}
+                                     --model_source {model_source}"   
+  main:
+    parameters:
+       bucket: string
+       dataset: string
+       alpha: float
+       n_components: int
+    command: "python main.py --bucket {bucket}
+                             --dataset {dataset}
+                             --alpha {alpha}
+                             --n_components {n_components}"

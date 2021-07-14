@@ -7,13 +7,14 @@ import pandas as pd
 
 from joblib import load
 
+
 @click.command()
 @click.option("--x_source", type=str, help="Path to features")
 @click.option("--y_source", type=str, help="Path to labels")
 @click.option("--model_source", type=str, help="Path to model")
-def test_model(x_source:str,
-               y_source:str,
-               model_source:str):
+def test_model(x_source: str,
+               y_source: str,
+               model_source: str):
 
     # load test data
     with open(x_source, 'rb') as filehandle:
@@ -31,6 +32,7 @@ def test_model(x_source:str,
                                             x_data,
                                             y_data,
                                             prefix="test_")
+
 
 if __name__ == "__main__":
     test_model()

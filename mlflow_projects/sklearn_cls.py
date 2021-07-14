@@ -14,20 +14,21 @@ from mlflow.models.signature import infer_signature
 from sklearn.decomposition import TruncatedSVD
 from sklearn.pipeline import Pipeline
 
+
 @click.command()
 @click.option("--x_source", type=str, help="Path to features")
 @click.option("--y_source", type=str, help="Path to labels")
 @click.option("--alpha", type=float, default=0.9)
 @click.option("--n_components", type=int, default=10)
-def classify(x_source:str,
-             y_source:str,
-             alpha:float=0.9,
-             n_components:int=10,
-             k_folds:int=5,
-             scoring:str='roc_auc',
-             seed:int=42):
+def classify(x_source: str,
+             y_source: str,
+             alpha: float = 0.9,
+             n_components: int = 10,
+             k_folds: int = 5,
+             scoring: str = 'roc_auc',
+             seed: int = 42):
 
-    NOTE = ('Metrics with the prefix `train_all` correspond ' 
+    NOTE = ('Metrics with the prefix `train_all` correspond '
             'to training on all data, while `training`  '
             'correspond to the cross-validation results. \n '
             '***Attention*** this means that the plots '
@@ -41,8 +42,10 @@ def classify(x_source:str,
 
     # define pipeline
     pipe = Pipeline(
-        steps=[('decomp', TruncatedSVD(n_components=n_components, random_state=seed)),
-               ('cls', RidgeClassifier(alpha=alpha, random_state=seed))])
+        steps=[('decomp', TruncatedSVD(n_components=n_components,
+                                       random_state=seed)),
+               ('cls', RidgeClassifier(alpha=alpha,
+                                       random_state=seed))])
     pipe.fit(x_data, y_data)
     signature = infer_signature(x_data, pipe.predict(x_data))
 
@@ -58,7 +61,7 @@ def classify(x_source:str,
                                             x_data,
                                             y_data,
                                             prefix="train_all_")
-        
+
         scores = cross_val_score(
             pipe, x_data, y_data, cv=k_folds, scoring=scoring)
 
@@ -66,6 +69,6 @@ def classify(x_source:str,
         for i, s in enumerate(scores):
             mlflow.log_metrics({scoring: s}, step=i+1)
 
-        
+
 if __name__ == "__main__":
     classify()

@@ -24,10 +24,11 @@ def test_model(x_source: str,
 
     model = mlflow.sklearn.load_model(model_source)
 
-    with mlflow.start_run() as run:
+    with mlflow.start_run():
         mlflow.set_tag('mlflow.user', os.getenv('MLFLOW_TRACKING_USERNAME'))
 
         # results of complete training data
+        # here you should add the code to predict the labels
         mlflow.sklearn.eval_and_log_metrics(model,
                                             x_data,
                                             y_data,
